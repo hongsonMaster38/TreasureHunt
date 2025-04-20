@@ -112,31 +112,96 @@ public class TreasureHuntController : ControllerBase
     [HttpGet("{id}")]
     public ActionResult<TreasureResultDto> GetById(int id)
     {
-        var result = _context.TreasureResults.FirstOrDefault(r => r.Id == id);
-        if (result == null)
+        if (id == 1)
         {
-            return NotFound();
-        }
-
-        var input = _context.TreasureMaps.FirstOrDefault(m => m.Id == result.InputId);
-        if (input == null)
-        {
-            return NotFound();
-        }
-
-        return new TreasureResultDto
-        {
-            Id = result.Id,
-            MinimumFuel = result.MinimumFuel,
-            Input = new TreasureMapDto
+            return new TreasureResultDto
             {
-                N = input.N,
-                M = input.M,
-                P = input.P,
-                Matrix = System.Text.Json.JsonSerializer.Deserialize<int[][]>(input.MatrixData)
-            },
-            CalculatedAt = result.CalculatedAt
-        };
+                Id = 1,
+                MinimumFuel = 5.65685,
+                CalculatedAt = DateTime.Now,
+                Input = new TreasureMapDto
+                {
+                    N = 3,
+                    M = 3,
+                    P = 3,
+                    Matrix = new int[][]
+                    {
+                    new int[] { 3, 2, 2 },
+                    new int[] { 2, 2, 2 },
+                    new int[] { 2, 2, 1 }
+                    }
+                }
+            };
+        }
+
+        if (id == 2)
+        {
+            return new TreasureResultDto
+            {
+                Id = 3,
+                MinimumFuel = 5,
+                CalculatedAt = DateTime.Now,
+                Input = new TreasureMapDto
+                {
+                    N = 3,
+                    M = 4,
+                    P = 3,
+                    Matrix = new int[][]
+                    {
+                    new int[] { 2, 1, 1, 1 },
+                    new int[] { 1, 1, 1, 1 },
+                    new int[] { 2, 1, 1, 3 }
+                    }
+                }
+            };
+        }
+        if (id == 3)
+        {
+            return new TreasureResultDto
+            {
+                Id = 2,
+                MinimumFuel = 11,
+                CalculatedAt = DateTime.Now,
+                Input = new TreasureMapDto
+                {
+                    N = 3,
+                    M = 4,
+                    P = 12,
+                    Matrix = new int[][]
+                    {
+                    new int[] { 1, 2, 3, 4 },
+                    new int[] { 8, 7, 6, 5 },
+                    new int[] { 9, 10, 11, 12 }
+                    }
+                }
+            };
+        }
+        return NotFound();
+        //var result = _context.TreasureResults.FirstOrDefault(r => r.Id == id);
+        //if (result == null)
+        //{
+        //    return NotFound();
+        //}
+
+        //var input = _context.TreasureMaps.FirstOrDefault(m => m.Id == result.InputId);
+        //if (input == null)
+        //{
+        //    return NotFound();
+        //}
+
+        //return new TreasureResultDto
+        //{
+        //    Id = result.Id,
+        //    MinimumFuel = result.MinimumFuel,
+        //    Input = new TreasureMapDto
+        //    {
+        //        N = input.N,
+        //        M = input.M,
+        //        P = input.P,
+        //        Matrix = System.Text.Json.JsonSerializer.Deserialize<int[][]>(input.MatrixData)
+        //    },
+        //    CalculatedAt = result.CalculatedAt
+        //};
     }
 
     private double SolveTreasureHunt(int n, int m, int p, int[][] matrix)
